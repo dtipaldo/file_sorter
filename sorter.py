@@ -37,15 +37,10 @@ class File_Sorter(object):
 
         return all_filepaths
 
-
-    # sort Method
     def sort(filepath: str):
         sort_result = False
         source_path = filepath
-
-
-        destination_path =
-
+        destination_path = ''
         # Move file from source to destination
 
         return sort_result
