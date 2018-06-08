@@ -1,0 +1,20 @@
+{
+  "\\path\\to\\folder":{
+    "patters": [
+      "pattern 1",
+      "pattern 2",
+      "pattern 3"
+    ],
+    "make_directory_if_missing": "true"
+  },
+
+  "\\path\\to\\folder2":{
+    "patters": [
+      "pattern 1",
+      "pattern 2",
+      "pattern 3"
+    ],
+    "make_directory_if_missing": "true"
+  },
+
+}
