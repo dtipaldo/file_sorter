@@ -3,6 +3,7 @@ import datetime
 import json
 import argparse
 import logging
+import re
 
 
 """
@@ -11,16 +12,18 @@ sorter by Dan Tipaldo 06-2018
 """
 class File_Sorter(object):
     def __init__(self, config_file=None, sort_log=None):
-        self.config_file = config_file
         self.sort_log = sort_log
-
-        if sort_log:  # Log to file if defined, otherwise only log to screen
-            logging.basicConfig(filename=sort_log, level=logging.INFO)
+        if self.sort_log:  # Log to file if defined, otherwise only log to screen
+            logging.basicConfig(filename=self.sort_log, level=logging.INFO)
         else:
             logging.warning('No log file set! Sorter status will be displayed in the terminal only.')
 
         logging.info('Sorter Initialized at {}'.format(datetime.datetime.now()))
 
+        try:
+            self.patterns = json.loads(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), config_file), "r").read())
+        except FileNotFoundError:
+            logging.warning("Config File not found")  # TODO: Add more exceptions
 
     def get_all_filepaths(path: str):
         """
@@ -37,19 +40,21 @@ class File_Sorter(object):
 
         return all_filepaths
 
-    def sort(filepath: str):
-        sort_result = False
-        source_path = filepath
-        destination_path = ''
-        # Move file from source to destination
-
-        return sort_result
+    def sort(self, filepath: str):
+        filename = os.path.basename(filepath)
+        for destination, patterns in self.patterns.values():
+            for pattern in patterns:
+                p = re.compile(pattern)
+                if p.match(filename):
+                    logging.info('Sorting File {}'.format(filename))
+                    print('Sorting File {}'.format(filename))
+                    # os.rename(filepath, destination)
+        return
 
 
 if __name__ == '__main__':
 
     config_file = 'sorter_configuration.json'  # Config File Definition
-
     sort_log = 'sort_log'  # Sort Log Definition
 
     parser = argparse.ArgumentParser()  # Import and check User arguments (file or directory)

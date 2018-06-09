@@ -1,20 +1,16 @@
 {
-  "\\path\\to\\folder":{
+  "C:\\Users\\Dan\\Desktop\\destination\\Folder1":{
     "patters": [
-      "pattern 1",
-      "pattern 2",
-      "pattern 3"
-    ],
-    "make_directory_if_missing": "true"
+      "Apple",
+      "Banana"
+    ]
   },
 
-  "\\path\\to\\folder2":{
+  "C:\\Users\\Dan\\Desktop\\destination\\Folder2":{
     "patters": [
-      "pattern 1",
-      "pattern 2",
-      "pattern 3"
-    ],
-    "make_directory_if_missing": "true"
-  },
+      "Cherry",
+      "Date"
+    ]
+  }
 
 }
