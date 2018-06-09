@@ -18,14 +18,14 @@ class File_Sorter(object):
         else:
             logging.warning('No log file set! Sorter status will be displayed in the terminal only.')
 
-        logging.info('Sorter Initialized at {}'.format(datetime.datetime.now()))
+        logging.info('{} - Sorter Initialized'.format(datetime.datetime.now()))
 
         try:
             self.patterns = json.loads(open(os.path.join(os.path.dirname(os.path.realpath(__file__)), config_file), "r").read())
         except FileNotFoundError:
             logging.warning("Config File not found")  # TODO: Add more exceptions
 
-    def get_all_filepaths(path: str):
+    def get_all_filepaths(self, path: str):
         """
         Method to identify all files recursively within a directory. Returns a list of full file paths
 
@@ -42,13 +42,16 @@ class File_Sorter(object):
 
     def sort(self, filepath: str):
         filename = os.path.basename(filepath)
-        for destination, patterns in self.patterns.values():
-            for pattern in patterns:
+        for destination in self.patterns.keys():
+            for pattern in self.patterns[destination]['patterns']:
                 p = re.compile(pattern)
                 if p.match(filename):
-                    logging.info('Sorting File {}'.format(filename))
-                    print('Sorting File {}'.format(filename))
-                    # os.rename(filepath, destination)
+                    try:
+                        os.rename(filepath, os.path.join(destination, filename))
+                        logging.info('{} - Sorting File {} ==> {}'.format(datetime.datetime.now(), filepath, os.path.join(destination, filename)))
+                        print('{} - Sorting File {} ==> {}'.format(datetime.datetime.now(), filepath, os.path.join(destination, filename)))
+                    except FileExistsError:
+                        logging.warning("{} already exists".format(os.path.join(destination, filename)))
         return
 
 
